@@ -1,49 +1,44 @@
 import React, {Component} from 'react';
+import './style.css';
+//  https://sujeitoprogramador.com/rn-api/?api=posts
 
 class App extends Component{
 
     constructor(props){
         super(props);
         this.state = {
-            form: {
-                nome: '',
-                email: '',
-                senha: '',
-                sexo: ''
-            }
+            nutri: []
         };
-        this.dadosForm = this.dadosForm.bind(this);
     }
 
-    dadosForm(event){
-        let form = this.state.form;
-        form[event.target.name] = event.target.value;
-        this.setState({ form: form });
+    componentDidMount(){
+        let url = 'https://sujeitoprogramador.com/rn-api/?api=posts';
+        fetch(url)
+        .then( (response) => response.json() )
+        .then( (json) => {
+            let state = this.state;
+            state.nutri = json;
+            this.setState(state);
+            // console.log(json);
+        })
     }
 
     render(){
         return(
-            <div>
-                <h2>Login</h2>
-                Nome:
-                <input type="text" name="nome" value={this.state.form.nome} 
-                    onChange={ this.dadosForm }/><br/>
-                Email: 
-                <input type="email" name="email" value={this.state.form.email} onChange={ this.dadosForm }/> <br/>
-                Senha: 
-                <input type="password" name="senha" value={this.state.form.senha}
-                    onChange={ this.dadosForm }/><br/>
-                Sexo: 
-                <select name="sexo" value={this.state.form.sexo} onChange={ this.dadosForm }>
-                    <option value="masculino">Masculino</option>
-                    <option value="feminino">Feminino</option>
-                </select>
-                <div>
-                    <h3>{this.state.form.nome}</h3>
-                    <h3>{this.state.form.email}</h3>
-                    <h3>{this.state.form.senha}</h3>
-                    <h3>{this.state.form.sexo}</h3>
-                </div>
+            <div className="container">
+                <header>
+                    <strong>React Nutri</strong>
+                </header>
+                {this.state.nutri.map( (item) => {
+                    return(
+                        <article key={item.id} className="post">
+                            <strong className="titulo">{item.titulo}</strong>
+                            <img src={item.capa} className="capa"/>
+                            <p className="subtitulo">{item.subtitulo}</p>
+                            <a className="botao" href="#">Acessar</a>
+                        </article>
+                    );
+                } )}
             </div>
         );
     }
