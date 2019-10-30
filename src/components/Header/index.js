@@ -5,9 +5,8 @@ class Header extends Component{
     render(){
         return(
             <div>
-                Header meu projeto 
-                <Link to="/">Ir para Home </Link> 
-                <Link to="/sobre">Ir para Sobre</Link>
+                Header meu projeto <br/>
+                <Link to="/">Home</Link>
                 <hr/>
             </div>
         );
